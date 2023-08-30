@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\wwwroot\\ImageKhachHang\\638273402869566800.jpg",
+      "PackagePath": "staticwebassets\\ImageKhachHang\\638273402869566800.jpg"
+    },
+    {
+      "Id": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\wwwroot\\ImageKhachHang\\638273680211498487.jpg",
+      "PackagePath": "staticwebassets\\ImageKhachHang\\638273680211498487.jpg"
+    },
+    {
+      "Id": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\wwwroot\\ImageKhachHang\\638273682449097316.jpg",
+      "PackagePath": "staticwebassets\\ImageKhachHang\\638273682449097316.jpg"
+    },
+    {
+      "Id": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\wwwroot\\ImageKhachHang\\638273687415582611.jpg",
+      "PackagePath": "staticwebassets\\ImageKhachHang\\638273687415582611.jpg"
+    },
+    {
+      "Id": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\wwwroot\\ImageKhachHang\\638273687852173781.jpg",
+      "PackagePath": "staticwebassets\\ImageKhachHang\\638273687852173781.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.AuthenticationProject.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.build.AuthenticationProject.props",
+      "PackagePath": "build\\AuthenticationProject.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildMultiTargeting.AuthenticationProject.props",
+      "PackagePath": "buildMultiTargeting\\AuthenticationProject.props"
+    },
+    {
+      "Id": "obj\\Debug\\net6.0\\staticwebassets\\msbuild.buildTransitive.AuthenticationProject.props",
+      "PackagePath": "buildTransitive\\AuthenticationProject.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
