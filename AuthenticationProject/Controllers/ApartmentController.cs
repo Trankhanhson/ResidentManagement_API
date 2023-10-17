@@ -49,7 +49,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [CustomAuthorize("Apartment_Update", typeof(CacheHelper))]
+        //[CustomAuthorize("Apartment_Update", typeof(CacheHelper))]
         public IActionResult Update(ApartmentDTO apartment)
         {
             try
@@ -67,7 +67,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("Delete/{id}")]
-        [CustomAuthorize("Apartment_Delete", typeof(CacheHelper))]
+        //[CustomAuthorize("Apartment_Delete", typeof(CacheHelper))]
         public IActionResult Delete(int id)
         {
             try
@@ -85,7 +85,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("DeleteMultiple")]
-        [CustomAuthorize("Apartment_DeleteMultiple", typeof(CacheHelper))]
+        //[CustomAuthorize("Apartment_DeleteMultiple", typeof(CacheHelper))]
         public IActionResult DeleteMultiple(List<Apartment> apartmentList)
         {
             try
@@ -103,14 +103,16 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        [CustomAuthorize("Apartment_GetAll", typeof(CacheHelper))]
-        public async Task<IActionResult> GetAll()
+        //[CustomAuthorize("Apartment_GetAll", typeof(CacheHelper))]
+        public async Task<object> GetAll([FromQuery] PageInputDto input)
         {
             try
             {
-                var list = await apartmentRepository.GetAll();
-                var mapped = _mapper.Map<List<ApartmentDTO>>(list);
-                return Ok(JsonConvert.SerializeObject(list));
+                var query = apartmentRepository.GetAllApartment(input.keyword);
+                var list = await query.Skip(5 * (input.pageIndex - 1)).Take(5).ToListAsync();
+                var totalCount =await query.CountAsync();
+                var totalPage = Math.Ceiling(totalCount / 5.0);
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list),"Get list success",totalPage);
             }
             catch
             {

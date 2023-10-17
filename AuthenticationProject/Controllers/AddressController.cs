@@ -5,7 +5,9 @@ using AuthenticationProject.Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Net.WebSockets;
 
 namespace AuthenticationProject.Controllers
 {
@@ -22,7 +24,7 @@ namespace AuthenticationProject.Controllers
         }
         [HttpPost]
         [Route("Create")]
-        [CustomAuthorize("Address_Create", typeof(CacheHelper))]
+        //[CustomAuthorize("Address_Create", typeof(CacheHelper))]
         public async Task<IActionResult> Create(AddressDTO address)
         {
             try
@@ -45,7 +47,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [CustomAuthorize("Address_Update", typeof(CacheHelper))]
+        //[CustomAuthorize("Address_Update", typeof(CacheHelper))]
         public IActionResult Update(AddressDTO address)
         {
             try
@@ -63,7 +65,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("Delete/{id}")]
-        [CustomAuthorize("Address_Delete", typeof(CacheHelper))]
+        //[CustomAuthorize("Address_Delete", typeof(CacheHelper))]
         public IActionResult Delete(int id)
         {
             try
@@ -81,7 +83,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("DeleteMultiple")]
-        [CustomAuthorize("Address_DeleteMultiple", typeof(CacheHelper))]
+        //[CustomAuthorize("Address_DeleteMultiple", typeof(CacheHelper))]
         public IActionResult DeleteMultiple(List<Address> addressList)
         {
             try
@@ -99,18 +101,38 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        [CustomAuthorize("Address_GetAll", typeof(CacheHelper))]
-        public async Task<IActionResult> GetAll()
+        //[CustomAuthorize("Address_GetAll", typeof(CacheHelper))]
+        public async Task<object> GetAll([FromQuery] PageInputDto input)
         {
             try
             {
-                var list = await addressRepository.GetAll();
-                var result = _mapper.Map<List<AddressDTO>>(list);
-                return Ok(JsonConvert.SerializeObject(result));
+                var query = addressRepository.GetAllAddress(input.keyword);
+
+                var list = await query.Skip(5 * (input.pageIndex-1)).Take(5).ToListAsync();
+                var totalCount = await query.CountAsync();
+                var totalPage = Math.Ceiling(totalCount / 5.0);
+                
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list),"Get list success", totalPage);
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred");
+                return DataResult.ResultError("Get list fail");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetSelect")]
+        public async Task<object> GetSelect()
+        {
+            try
+            {
+                var list = await addressRepository.GetSelect().ToListAsync();
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list));
+
+            }
+            catch
+            {
+                return DataResult.ResultError("Get Select fail");
             }
         }
 

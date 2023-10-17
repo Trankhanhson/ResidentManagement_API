@@ -23,7 +23,7 @@ namespace AuthenticationProject.Controllers
         }
         [HttpPost]
         [Route("Create")]
-        [CustomAuthorize("Resident_Create", typeof(CacheHelper))]
+        //[CustomAuthorize("Resident_Create", typeof(CacheHelper))]
         public async Task<IActionResult> Create([FromBody] ResidentDTO resident)
         {
             try
@@ -45,7 +45,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [CustomAuthorize("Resident_Update", typeof(CacheHelper))]
+        //[CustomAuthorize("Resident_Update", typeof(CacheHelper))]
         public async Task<IActionResult> Update( ResidentDTO resident)
         {
             try
@@ -63,7 +63,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("Delete/{id}")]
-        [CustomAuthorize("Resident_Delete", typeof(CacheHelper))]
+        //[CustomAuthorize("Resident_Delete", typeof(CacheHelper))]
         public IActionResult Delete(int id)
         {
             try
@@ -81,7 +81,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("DeleteMultiple")]
-        [CustomAuthorize("Resident_DeleteMultiple", typeof(CacheHelper))]
+        //[CustomAuthorize("Resident_DeleteMultiple", typeof(CacheHelper))]
         public IActionResult DeleteMulti(List<ResidentDTO> residents)
         {
             try
@@ -100,12 +100,21 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        [CustomAuthorize("Resident_GetAll", typeof(CacheHelper))]
-        public async Task<IActionResult> GetAll()
+        //[CustomAuthorize("Resident_GetAll", typeof(CacheHelper))]
+        public async Task<object> GetAll([FromQuery] PageInputDto input)
         {
-            var list = await _residentRepository.GetAll();
-            var mappedResidents = _mapper.Map<List<Resident>>(list);
-            return Ok(JsonConvert.SerializeObject(mappedResidents));
+            try
+            {
+                var query = _residentRepository.GetAllResident(input.keyword);
+                var list = await query.Skip(5 * (input.pageIndex - 1)).Take(5).ToListAsync();
+                var totalCount = await query.CountAsync();
+                var totalPage = Math.Ceiling(totalCount / 5.0);
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list), "Get list success", totalPage);
+            }
+            catch
+            {
+                return DataResult.ResultError("Gte list error");
+            }
         }
 
 

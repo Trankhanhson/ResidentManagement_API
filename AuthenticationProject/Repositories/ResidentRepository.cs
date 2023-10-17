@@ -1,4 +1,5 @@
-﻿using AuthenticationProject.Models;
+﻿using AuthenticationProject.Data;
+using AuthenticationProject.Models;
 using AuthenticationProject.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Collections;
@@ -168,6 +169,23 @@ namespace AuthenticationProject.Repositories
                                };
             var r = await groupedQuery.ToListAsync();
             return r;
+        }
+
+        public IQueryable<ResidentDTO> GetAllResident(string keyword)
+        {
+            var query = (from r in _context.Resident
+                         select new ResidentDTO()
+                         {
+                             ResidentId = r.ResidentId,
+                             Cccd = r.Cccd,
+                             DateOfBirth = r.DateOfBirth,
+                             PhoneNumber = r.PhoneNumber,
+                             Email = r.Email,
+                             Address = r.Address,
+                             Name = r.Name,
+                             Gender = r.Gender
+                         });
+            return query.AsQueryable();
         }
     }
 }

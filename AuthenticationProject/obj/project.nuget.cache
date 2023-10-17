@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JX6zmpy8ja9enmRr1QhPdQ+Gziq/g7rsES4auMbuUgQC3zu1ah6w3CQjopxnuGnWqBvYkmN9sEemJOUYZKUCcQ==",
+  "dgSpecHash": "rlf9t8uetAOYm4ITPlGiyF1J1pKC/Q+QzI3qcA7tRAMZ5rJ2o5FloR9UUPhkx+QW9DYDgX6BvI33GsKajxkuvA==",
   "success": true,
-  "projectFilePath": "D:\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\AuthenticationProject.csproj",
+  "projectFilePath": "D:\\Work\\Dự án công ty\\Phần 2\\AuthenticationProject\\AuthenticationProject\\AuthenticationProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\TRAN KHANH SON\\.nuget\\packages\\automapper\\12.0.1\\automapper.12.0.1.nupkg.sha512",
     "C:\\Users\\TRAN KHANH SON\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\12.0.1\\automapper.extensions.microsoft.dependencyinjection.12.0.1.nupkg.sha512",
