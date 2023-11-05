@@ -1,9 +1,12 @@
-﻿using AuthenticationProject.Models;
+﻿using AuthenticationProject.Data;
+using AuthenticationProject.Models;
 
 namespace AuthenticationProject.Repositories.Interfaces
 {
     public interface IUrbanAreaRepository : IGenericRepository<UrbanArea>
     {
-        Task<IEnumerable<UrbanArea>> GetAllUrbanArea();
+        IQueryable<UrbanAreaDTO> GetAllUrbanArea(string name);
+
+        IQueryable<UrbanAreaDTO> GetSelect();
     }
 }

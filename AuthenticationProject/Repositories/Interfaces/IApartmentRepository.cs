@@ -8,5 +8,7 @@ namespace AuthenticationProject.Repositories.Interfaces
         Task<Apartment> GetApartmentById(int id);
 
         Task<IEnumerable<Apartment>> GetApartmentSelect();
+
+        IQueryable<ApartmentDTO> GetAllApartment(string keyword);
     }
 }

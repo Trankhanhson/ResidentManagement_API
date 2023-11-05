@@ -9,6 +9,29 @@ namespace AuthenticationProject.Repositories
     {
         public ApartmentRepository(AuthenticationDBContext _context) : base(_context) { }
 
+        public IQueryable<ApartmentDTO> GetAllApartment(string keyword)
+        {
+            var query = (from a in _context.Apartments
+                         join b in _context.BuildingCategories 
+                         on a.CategoryId equals b.CategoryId into a_b
+                         from b in  a_b.DefaultIfEmpty()
+                         where keyword == null || a.ApartmentName.Contains(keyword)
+                         select new ApartmentDTO()
+                         {
+                             ApartmentId = a.ApartmentId,
+                             ApartmentName = a.ApartmentName,
+                             Floor = a.Floor,   
+                             Space = a.Space,
+                             CategoryId = a.CategoryId,
+                             BuildingCategory = new BuildingCategoryDTO()
+                             {
+                                 CategoryName = b.CategoryName
+                             }
+
+                         }).AsQueryable();
+            return query;
+        }
+
         public async Task<Apartment> GetApartmentById(int id)
         {
             var apartment = await _context.Apartments.Include(a => a.BuildingCategory).FirstOrDefaultAsync(b => b.ApartmentId == id);

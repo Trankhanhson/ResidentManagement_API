@@ -6,4 +6,5 @@
         public string? UrbanName { get; set; }
         public int? Population { get; set; }
     }
+
 }

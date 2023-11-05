@@ -31,7 +31,7 @@ namespace AuthenticationProject.Controllers
         }
         [HttpPost]
         [Route("Create")]
-        [CustomAuthorize("Permission_Create", typeof(CacheHelper))]
+        //[CustomAuthorize("Permission_Create", typeof(CacheHelper))]
         public async Task<IActionResult> Create([FromBody] Permission permission)
         {
             try
@@ -52,7 +52,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [CustomAuthorize("Permission_Update", typeof(CacheHelper))]
+        //[CustomAuthorize("Permission_Update", typeof(CacheHelper))]
         public async Task<IActionResult> Update(Permission permission)
         {
             try
@@ -70,7 +70,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("Delete/{id}")]
-        [CustomAuthorize("Permission_Delete", typeof(CacheHelper))]
+        //[CustomAuthorize("Permission_Delete", typeof(CacheHelper))]
         public IActionResult Delete(int id)
         {
             try
@@ -88,7 +88,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("DeleteMultiple")]
-        [CustomAuthorize("Permission_DeleteMultiple", typeof(CacheHelper))]
+        //[CustomAuthorize("Permission_DeleteMultiple", typeof(CacheHelper))]
         public IActionResult DeleteMulti(List<Permission> permissions)
         {
             try
@@ -106,7 +106,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        [CustomAuthorize("Permission_GetAll", typeof(CacheHelper))]
+        //[CustomAuthorize("Permission_GetAll", typeof(CacheHelper))]
         public async Task<IActionResult> GetAll()
         {
             var list = _permissionRepository.GetAllPermissions();

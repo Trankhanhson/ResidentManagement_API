@@ -1,10 +1,12 @@
 ﻿using AuthenticationProject.common;
 using AuthenticationProject.Data;
 using AuthenticationProject.Models;
+using AuthenticationProject.Repositories;
 using AuthenticationProject.Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -23,7 +25,7 @@ namespace AuthenticationProject.Controllers
         }
         [HttpPost]
         [Route("Create")]
-        [CustomAuthorize("BuildingCategory_Create", typeof(CacheHelper))]
+        //[CustomAuthorize("BuildingCategory_Create", typeof(CacheHelper))]
         public async Task<IActionResult> Create(BuildingCategoryDTO buildingCategory)
         {
             try
@@ -47,7 +49,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("Update")]
-        [CustomAuthorize("BuildingCategory_Update", typeof(CacheHelper))]
+        //[CustomAuthorize("BuildingCategory_Update", typeof(CacheHelper))]
         public IActionResult Update(BuildingCategoryDTO buildingCategory)
         {
             try
@@ -65,7 +67,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("Delete/{id}")]
-        [CustomAuthorize("BuildingCategory_Delete", typeof(CacheHelper))]
+        //[CustomAuthorize("BuildingCategory_Delete", typeof(CacheHelper))]
         public IActionResult Delete(int id)
         {
             try
@@ -84,7 +86,7 @@ namespace AuthenticationProject.Controllers
 
         [HttpPost]
         [Route("DeleteMultiple")]
-        [CustomAuthorize("BuildingCategory_DeleteMultiple", typeof(CacheHelper))]
+        //[CustomAuthorize("BuildingCategory_DeleteMultiple", typeof(CacheHelper))]
         public IActionResult DeleteMultiple(List<BuildingCategoryDTO> buildingCategoryList)
         {
             try
@@ -103,18 +105,36 @@ namespace AuthenticationProject.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        [CustomAuthorize("BuildingCategory_GetAll", typeof(CacheHelper))]
-        public async Task<IActionResult> GetAll()
+        //[CustomAuthorize("BuildingCategory_GetAll", typeof(CacheHelper))]
+        public async Task<object> GetAll([FromQuery] PageInputDto input)
         {
             try
             {
-                var list = await buildingCategoryRepository.GetAllBuildingCategory();
-                var mapped = _mapper.Map<List<BuildingCategoryDTO>>(list);
-                return Ok(JsonConvert.SerializeObject(mapped));
+                var query = buildingCategoryRepository.GetAllBuildingCategory(input.keyword);
+                var list = await query.Skip(5 * (input.pageIndex - 1)).Take(5).ToListAsync();
+                var totalCount = await query.CountAsync();
+                var totalPage = Math.Ceiling(totalCount / 5.0);
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list), "Get list success", totalPage);
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "An error occurred");
+                return DataResult.ResultError("Get list error");
+            }
+        }
+
+        [HttpGet]
+        [Route("GetSelect")]
+        public async Task<object> GetSelect()
+        {
+            try
+            {
+                var list = await buildingCategoryRepository.GetSelect().ToListAsync();
+                return DataResult.ResultSuccess(JsonConvert.SerializeObject(list));
+
+            }
+            catch
+            {
+                return DataResult.ResultError("Get Select fail");
             }
         }
 

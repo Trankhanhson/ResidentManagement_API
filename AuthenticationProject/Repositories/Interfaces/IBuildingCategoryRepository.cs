@@ -1,10 +1,13 @@
-﻿using AuthenticationProject.Models;
+﻿using AuthenticationProject.Data;
+using AuthenticationProject.Models;
 
 namespace AuthenticationProject.Repositories.Interfaces
 {
     public interface IBuildingCategoryRepository: IGenericRepository<BuildingCategory>
     {
-        Task<IEnumerable<BuildingCategory>> GetAllBuildingCategory();
+        IQueryable<BuildingCategoryDTO> GetAllBuildingCategory(string keyword);
         Task<BuildingCategory> GetBuildingCategory(int id);
+
+        IQueryable<BuildingCategoryDTO> GetSelect();
     }
 }

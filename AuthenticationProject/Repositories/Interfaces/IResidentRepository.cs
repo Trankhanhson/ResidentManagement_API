@@ -1,4 +1,5 @@
 ﻿
+using AuthenticationProject.Data;
 using AuthenticationProject.Models;
 using System.Collections;
 
@@ -14,5 +15,7 @@ namespace AuthenticationProject.Repositories.Interfaces
 
         Resident GetResidents(int id);
         Task<IEnumerable<Resident>> GetDetail(int id);
+
+        IQueryable<ResidentDTO> GetAllResident(string keyword);
     }
 }   
